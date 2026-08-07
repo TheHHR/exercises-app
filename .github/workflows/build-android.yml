@@ -38,6 +38,7 @@ jobs:
         run: |
           rm -rf www
           mkdir -p www
+
           cp index.html styles.css app.js www/
           cp -R images videos www/
 
@@ -51,6 +52,7 @@ jobs:
         run: |
           rm -rf android
           npx cap add android
+          npx capacitor-assets generate --android
           npx cap sync android
 
       - name: Build debug APK
