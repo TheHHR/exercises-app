@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="Browse, filter, and learn from 1,300+ exercises with instructions and media.">
+<title>Form — Exercise Library</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+<main class="shell">
+<div class="content">
+<aside class="filters" id="filters"><div class="filter-quick-actions"><label class="top-search"><svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="search" type="search" placeholder="Search exercises…" autocomplete="off" aria-label="Search exercises"></label><button class="routine-button" id="routinesBtn" aria-label="Open routines"><svg class="icon" viewBox="0 0 24 24"><path d="M8 6h12M8 12h12M8 18h8M4 6h.01M4 12h.01M4 18h.01"/></svg><span class="routine-button-label">Routines</span><b id="routineCount">0</b></button></div><div class="filter-head"><h2>Refine results</h2><button class="clear-btn" id="clearFilters">Reset</button></div>
+<div class="filter-group"><div class="filter-label">Body part</div><div class="select-wrap"><select id="categoryFilter" aria-label="Body part"><option value="">All body parts</option></select><svg class="icon" viewBox="0 0 24 24"><path d="m8 10 4 4 4-4"/></svg></div></div>
+<div class="filter-group"><div class="filter-label">Target muscle</div><div class="select-wrap"><select id="targetFilter" aria-label="Target muscle"><option value="">All target muscles</option></select><svg class="icon" viewBox="0 0 24 24"><path d="m8 10 4 4 4-4"/></svg></div></div>
+<div class="filter-group"><div class="filter-label">Equipment</div><div class="select-wrap"><select id="equipmentFilter" aria-label="Equipment"><option value="">All equipment</option></select><svg class="icon" viewBox="0 0 24 24"><path d="m8 10 4 4 4-4"/></svg></div></div>
+<div class="filter-group"><label class="check"><input type="checkbox" id="favoritesOnly"><span>Saved exercises only</span></label><label class="check"><input type="checkbox" id="bodyweightOnly"><span>Body weight only</span></label></div>
+</aside><div class="drawer-backdrop" id="drawerBackdrop"></div>
+<section class="main"><button class="filters-toggle" id="menuBtn" aria-label="Open filters"><svg class="icon" viewBox="0 0 24 24"><path d="M4 6h16M7 12h10M10 18h4"/></svg><span>Filters</span></button><div class="toolbar toolbar-expanded"><div class="toolbar-summary"><div class="result-copy"><strong id="resultCount">0 exercises</strong><span id="resultContext"> in the library</span></div><div class="stats toolbar-stats"><div class="stat"><strong id="statExercises">—</strong><span>exercises</span></div><div class="stat"><strong id="statTargets">—</strong><span>targets</span></div><div class="stat"><strong id="statEquipment">—</strong><span>equipment</span></div></div></div><div class="toolbar-actions"><div class="segmented" aria-label="View style"><button id="gridView" class="active" aria-label="Grid view"><svg class="icon" viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6"/><rect x="14" y="4" width="6" height="6"/><rect x="4" y="14" width="6" height="6"/><rect x="14" y="14" width="6" height="6"/></svg></button><button id="listView" aria-label="List view"><svg class="icon" viewBox="0 0 24 24"><path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/></svg></button></div><select class="routine-filter" id="mainRoutineSelect" aria-label="Filter by routine"><option value="">All</option></select><select class="sort" id="sortBy" aria-label="Sort exercises"><option value="custom" disabled>Custom</option><option value="name">Name A–Z</option><option value="name-desc">Name Z–A</option><option value="category">Body part</option><option value="id">Dataset order</option></select></div></div><div class="active-filters" id="activeFilters"></div><div class="grid" id="grid" aria-live="polite"></div><div class="load"><button id="loadMore">Load more exercises</button></div></section>
+</div></main></div>
+<div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><article class="modal"><button class="modal-close" id="modalClose" aria-label="Close"><svg class="icon" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg></button><div class="modal-grid"><div class="modal-visual"><img id="modalImage" alt=""><div class="fallback"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="5" r="2"/><path d="m9 22 1-7-3-4 4-3 3 3 4 1M15 22l-1-6"/></svg><span>Media unavailable</span></div></div><div class="modal-content"><div class="modal-kicker" id="modalKicker"></div><h2 id="modalTitle"></h2><div class="modal-badges" id="modalBadges"></div><h3 class="section-title">How to perform</h3><div id="modalInstructions"></div><h3 class="section-title">Secondary muscles</h3><div class="modal-badges" id="modalSecondary"></div><div class="modal-footer"><span class="source" id="modalSource"></span></div></div></div></article></div>
+<div class="routine-backdrop" id="routineBackdrop"></div>
+<aside class="routine-drawer" id="routineDrawer" aria-label="Routine builder" aria-hidden="true">
+  <div class="routine-header"><div><span class="routine-eyebrow">Workout builder</span><h2>Your routines</h2><span class="routine-header-summary" id="routineHeaderSummary">Create your first routine</span></div><button class="routine-close" id="routineClose" aria-label="Close routines"><svg class="icon" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div>
+  <button class="routine-new-toggle" id="routineNewToggle" aria-expanded="false" aria-controls="routineCreateForm"><svg class="icon" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg><span>New routine</span></button>
+  <div class="routine-create" id="routineCreateForm" hidden><input id="routineName" maxlength="40" placeholder="Routine name" aria-label="New routine name"><button id="createRoutine">Create</button></div>
+  <div class="routine-switch"><label for="routineSelect">Active routine</label><div class="routine-select-row"><select id="routineSelect" aria-label="Active routine"></select><button id="deleteRoutine" aria-label="Delete active routine">Delete</button></div></div>
+  <div class="routine-empty" id="routineEmpty"><svg class="icon" viewBox="0 0 24 24"><path d="M8 6h12M8 12h12M8 18h8M4 6h.01M4 12h.01M4 18h.01"/></svg><strong>Build a workout</strong><span>Create a routine, then add exercises with the + button.</span></div>
+  <div class="routine-items" id="routineItems"></div>
+  <div class="routine-footer"><span id="routineSummary">0 exercises</span><span>Saved automatically</span></div>
+</aside>
+<div class="toast" id="toast"></div>
+<script src="app.js" defer></script>
+</body></html>
