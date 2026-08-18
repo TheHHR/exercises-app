@@ -1,0 +1,53 @@
+name: 🧹 Repo Maintenance
+run-name: "🧹 Nuclear Cleanup: Reset Storage & Logs"
+on:
+  workflow_dispatch:
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    permissions: 
+      contents: write
+      actions: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 
+
+      - name: Clear Workflow Run History
+        run: |
+          echo "🗑️ Deleting previous workflow runs..."
+          # Deletes previous runs to keep the Actions UI clean
+          gh run list --limit 500 --json databaseId -q '.[].databaseId' | grep -v "${{ github.run_id }}" | xargs -I{} gh run delete {} || true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Reset Repository History
+        run: |
+          # 1. Create a fresh branch with zero history
+          git checkout --orphan temp_branch
+          
+          # 2. Wipe the current staging area and disk completely
+          # This ensures the 'downloads' folder and old history are purged
+          git rm -rf .
+          
+          # 3. Restore the Keep List from the original branch
+          # .github/ includes both /workflows (code) and /cache (memories)
+          git checkout ${{ github.ref_name }} -- .github/ README.md
+          
+          # 4. Finalize the reset
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git commit -m "🧹 Maintenance: Storage Reset & History Purge [skip ci]"
+          
+          # 5. Force overwrite the main branch reference locally
+          git branch -M ${{ github.ref_name }}
+          
+          # 6. Force Push to GitHub to overwrite the remote history
+          git push -f origin ${{ github.ref_name }}
+
+      - name: Report Final Size
+        run: |
+          echo "--- Storage After Reset ---"
+          du -sh .git
+          git count-objects -vH
