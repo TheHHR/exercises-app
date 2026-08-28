@@ -1,9 +1,8 @@
 {
-  "appId": "ir.modernsimplicity.form",
+  "appId": "com.formapp.fitness",
   "appName": "Form",
-  "webDir": "www",
-  "bundledWebRuntime": false,
-  "android": {
-    "allowMixedContent": false
+  "webDir": ".",
+  "server": {
+    "androidScheme": "https"
   }
 }
